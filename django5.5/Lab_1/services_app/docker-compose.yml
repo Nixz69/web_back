@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    container_name: maks
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: maksi
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: maks_db
+    ports:
+      - "5432:5432"
+
+  minio:
+    container_name: minio
+    image: minio/minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: maksi
+      MINIO_ROOT_PASSWORD: 12345678
+    ports:
+      - "9000:9000"  # Для API MinIO
+      - "9001:9001"  # Для консоли MinIO
+    volumes:
+      - minio_data:/data  # Данные MinIO будут храниться в volume
+    command: server /data --console-address ":9001"
+
+volumes:
+  minio_data:

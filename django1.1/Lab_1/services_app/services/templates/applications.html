@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявки</title>
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            color: #f4e1c1;
+            text-align: center;
+        }
+
+        .container table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container th, .container td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .container th {
+            background-color: #7a6a5a;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Заявки</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Статус</th>
+                    <th>Дата создания</th>
+                    <th>Дата завершения</th>
+                </tr>
+            </thead>
+            <tbody id="requests-body">
+                {% for application in applications %}
+                    <tr>
+                        <td>{{ application.id }}</td>
+                        <td>{{ application.get_status_display }}</td>
+                        <td>{{ application.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if application.completed_at %}
+                            {{ application.completed_at|date:"Y-m-d H:i" }}
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

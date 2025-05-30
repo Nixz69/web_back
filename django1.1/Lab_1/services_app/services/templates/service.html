@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список угроз</title>
+    <style>
+        body {
+            margin: 0;
+            background: #4F4F4F;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            padding-top: 100px; /* Добавлено для фиксированного header */
+        }
+
+        .header {
+            width: calc(100% - 40px);
+            max-width: 1833px;
+            height: 75px;
+            background: rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header button {
+            width: 167px;
+            height: 41px;
+            background: rgb(20, 20, 20);
+            border-radius: 15px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .header button:hover {
+            transform: scale(1.05);
+        }
+
+        .nav h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 28px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 30px;
+        }
+
+        .search-container input {
+            width: 60%;
+            padding: 12px 20px;
+            border-radius: 15px;
+            border: 1px solid white;
+            background: #333;
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-container button[type="submit"] {
+            width: 100px;
+            margin-left: 10px;
+            background: rgb(20, 20, 20);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .service-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: #FFD700;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .service-card a:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button>
+                <a href="/" style="color: white; text-decoration: none;">Мониторинг услуг</a>
+            </button>
+            <div class="header-buttons">
+                <button>Услуги</button>
+                <button>Заявки</button>
+            </div>
+        </div>
+        
+        <div class="nav">
+            <h1>Угрозы</h1>
+        </div>
+
+        <div class="search-container">
+            <form method="get">
+                <input type="text" name="query" value="{{ query }}" placeholder="Поиск угроз">
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+
+        <div class="services-list">
+            {% for service in service %}
+                <div class="service-card">
+                    <img src="{{ service.image }}" alt="{{ service.name }}">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description }}</p>
+                    <a href="{% url 'service_detail' service.id %}">Подробнее</a>
+                    <a href="{% url 'service_detail' service.id %}">Добавить заявку</a>
+                </div>
+            {% empty %}
+                <p>Ничего не найдено.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
